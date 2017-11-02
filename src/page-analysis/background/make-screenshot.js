@@ -8,7 +8,7 @@ import { dataURLToBlob } from 'blob-util'
 async function snapNow({ tabId }) {
     const tab = await browser.tabs.get(tabId)
     let image = await browser.tabs.captureVisibleTab(tab.windowId, {
-        format: 'png',
+        format: 'jpeg',
     })
     const blob = await dataURLToBlob(image)
     console.log('size before ' + blob.size / 1000 + 'kb')
