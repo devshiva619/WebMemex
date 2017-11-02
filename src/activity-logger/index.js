@@ -16,7 +16,7 @@ export function isLoggable({ url }) {
     const urlEndings = ['.svg', '.jpg', '.png', '.jpeg', '.gif']
     const loggableUrlPattern = /^https?:\/\//
 
-    for (let i = 0; urlEndings.length; i++) {
+    for (let i = 0; i < urlEndings.length; i++) {
         if (url.endsWith(urlEndings[i])) {
             return false
         }
