@@ -16,6 +16,9 @@ import convertOldExtBlacklist, {
 import index from 'src/search/search-index'
 
 export const OVERVIEW_URL = '/overview/overview.html'
+export const ONBOARDING_URL = '/onboarding/new_install.html'
+export const UPDATE_URL = '/update/update.html'
+export const UNINSTALL_URL = 'http://worldbrain.io/uninstall'
 
 // Put doc ID generators on window for user use with manual DB lookups
 window.generatePageDocId = generatePageDocId
@@ -44,7 +47,7 @@ browser.runtime.onInstalled.addListener(async details => {
     switch (details.reason) {
         case 'install':
             // Open onboarding page
-            browser.tabs.create({ url: '/onboarding/new_install.html' })
+            browser.tabs.create({ url: ONBOARDING_URL })
             // Store the timestamp of when the extension was installed + default blacklist
             browser.storage.local.set({ [installTimeStorageKey]: Date.now() })
             addToBlacklist(defaultEntries)
@@ -56,10 +59,13 @@ browser.runtime.onInstalled.addListener(async details => {
             } = await browser.storage.local.get(CONVERT_TIME_KEY)
             if (!doneBefore) {
                 // Open update page
-                browser.tabs.create({ url: '/update/update.html' })
+                browser.tabs.create({ url: UPDATE_URL })
                 convertOldExtBlacklist()
             }
             break
         default:
     }
 })
+
+// Open uninstall survey on ext. uninstall
+browser.runtime.setUninstallURL(UNINSTALL_URL)
