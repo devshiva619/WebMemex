@@ -43,6 +43,8 @@ browser.commands.onCommand.addListener(command => {
 browser.runtime.onInstalled.addListener(async details => {
     switch (details.reason) {
         case 'install':
+            // Open onboarding page
+            browser.tabs.create({ url: '/onboarding/new_install.html' })
             // Store the timestamp of when the extension was installed + default blacklist
             browser.storage.local.set({ [installTimeStorageKey]: Date.now() })
             addToBlacklist(defaultEntries)
@@ -53,6 +55,7 @@ browser.runtime.onInstalled.addListener(async details => {
                 [CONVERT_TIME_KEY]: doneBefore,
             } = await browser.storage.local.get(CONVERT_TIME_KEY)
             if (!doneBefore) {
+                // Open update page
                 browser.tabs.create({ url: '/update/update.html' })
                 convertOldExtBlacklist()
             }
